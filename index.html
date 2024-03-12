@@ -89,13 +89,26 @@
                 console.error('Login failed:', error);
             }
         }
+        msalInstance.handleRedirectPromise().then(response => {
+    // Handle redirect response
+}).catch(error => {
+    console.error('Redirect error:', error);
+});
+
+msalInstance.addEventCallback((event) => {
+    if (event.eventType === 'msal:loginFailure') {
+        console.error('Login failure:', event.error);
+        // Handle login failure, e.g., display an error message
+    }
+});
+
     </script>
 </head>
 <body>
     <div class="container">
         <h1>Welcome to NoteShare.</h1>
         <button onclick="signIn()">
-            <img src="ms.jpeg" alt="Microsoft Logo" class="logo">
+            <img src="Microsoft_logo.svg.png" alt="Microsoft Logo" class="logo">
             Sign in with Microsoft
         </button>
     </div>
