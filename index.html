@@ -6,7 +6,7 @@
     <title>Microsoft Sign-in Example</title>
     <script src="https://alcdn.msauth.net/browser/2.15.0/js/msal-browser.min.js"></script>
     <style>
-        body {
+         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -66,7 +66,6 @@
         }
     </style>
     <script>
-        console.log(msal);
         const msalConfig = {
             auth: {
                 clientId: '7b3dbb0d-c878-4991-8235-4839a552b3d2',
@@ -84,24 +83,21 @@
             try {
                 const response = await msalInstance.loginPopup(loginRequest);
                 console.log('Login successful:', response);
-                // Here you can redirect the user or perform other actions upon successful login
+
+                // Handle token retrieval
+                const accessToken = response.accessToken;
+                const idToken = response.idToken;
+
+                // Store tokens securely (e.g., in browser storage)
+                localStorage.setItem('accessToken', accessToken);
+                localStorage.setItem('idToken', idToken);
+
+                // Redirect user to a different page
+                window.location.href = '/dashboard'; // Change '/dashboard' to your desired URL
             } catch (error) {
                 console.error('Login failed:', error);
             }
         }
-        msalInstance.handleRedirectPromise().then(response => {
-    // Handle redirect response
-}).catch(error => {
-    console.error('Redirect error:', error);
-});
-
-msalInstance.addEventCallback((event) => {
-    if (event.eventType === 'msal:loginFailure') {
-        console.error('Login failure:', event.error);
-        // Handle login failure, e.g., display an error message
-    }
-});
-
     </script>
 </head>
 <body>
