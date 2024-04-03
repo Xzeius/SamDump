@@ -6,66 +6,83 @@
     <title>Microsoft Sign-in Example</title>
     <script src="https://alcdn.msauth.net/browser/2.15.0/js/msal-browser.min.js"></script>
     <style>
-         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            /* Set background image URL and properties */
-            background-image: url("sameer.jpg");  /* Replace with your image path */
-            background-size: cover;  /* Ensure image covers entire area */
-            background-position: center;  /* Center the image horizontally and vertically */
-            background-repeat: no-repeat;  /* Prevent image tiling */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    /* Set background image URL and properties */
+    background-image: url("sameer.jpg");  /* Replace with your image path */
+    background-size: cover;  /* Ensure image covers entire area */
+    background-position: center;  /* Center the image horizontally and vertically */
+    background-repeat: no-repeat;  /* Prevent image tiling */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
 
-        .container {
-            text-align: center;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            background-image: url("sameer.jpg");  /* Replace with your image path */
-            background-size: cover;  /* Ensure image covers entire area */
-            background-position: center;  /* Center the image horizontally and vertically */
-            background-repeat: no-repeat;  /* Prevent image tiling */
-            display: flex;
-            flex-direction: column; /* Added to arrange items in a column */
-            align-items: center; /* Center items horizontally */
-        }
+.container {
+    text-align: center;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
+    background-size: cover;  /* Ensure image covers entire area */
+    background-position: center;  /* Center the image horizontally and vertically */
+    background-repeat: no-repeat;  /* Prevent image tiling */
+    display: flex;
+    flex-direction: column; /* Added to arrange items in a column */
+    align-items: center; /* Center items horizontally */
+    
+}
 
-        h1 {
-            color: aqua;
-            margin-bottom: 20px; /* Added space below the heading */
-        }
+h1 {
+    font-size: 70px;
+        margin-top: 80px;
+}
 
-        button {
-            background-color: #33ddff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.5s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+button{
+        width: 250px;
+        padding: 15px 0;
+        text-align: center;
+        margin: 20px 10px;
+        border-radius: 25px;
+        font-weight: bold;
+        border: 2px solid #00abf0;
+        background: transparent;
+        color: #fff;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+    align-items: center; /* Align items vertically */
+    justify-content: center; /* Center items horizontally */
+    position: relative;
+    }
+    button img.logo {
+    margin-right: 1px;
+}
 
-        button:hover {
-            background-color: transparent;
-            border: 5px solid #33ddff;
-        }
+button span {
+    font-size: 16px;
+    line-height: 24px;
+}
 
-        .logo {
-            width: 24px;
-            height: auto;
-            margin-right: 10px;
-        }
+button:hover {
+    background-color: transparent;
+    border: 1px solid #33ddff;
+}
+
+.logo {
+    width: 24px;
+    height: auto;
+    margin-right: 10px;
+ }
+
+
     </style>
     <script>
+        console.log(msal);
         const msalConfig = {
             auth: {
                 clientId: '7b3dbb0d-c878-4991-8235-4839a552b3d2',
@@ -83,29 +100,35 @@
             try {
                 const response = await msalInstance.loginPopup(loginRequest);
                 console.log('Login successful:', response);
-
-                // Handle token retrieval
-                const accessToken = response.accessToken;
-                const idToken = response.idToken;
-
-                // Store tokens securely (e.g., in browser storage)
-                localStorage.setItem('accessToken', accessToken);
-                localStorage.setItem('idToken', idToken);
-
-                // Redirect user to a different page
-                window.location.href = '/dashboard'; // Change '/dashboard' to your desired URL
+                // Here you can redirect the user or perform other actions upon successful login
             } catch (error) {
                 console.error('Login failed:', error);
             }
         }
+        msalInstance.handleRedirectPromise().then(response => {
+    // Handle redirect response
+}).catch(error => {
+    console.error('Redirect error:', error);
+});
+
+msalInstance.addEventCallback((event) => {
+    if (event.eventType === 'msal:loginFailure') {
+        console.error('Login failure:', event.error);
+        // Handle login failure, e.g., display an error message
+    }
+});
+
     </script>
 </head>
 <body>
     <div class="container">
         <h1>Welcome to NoteShare.</h1>
         <button onclick="signIn()">
-            <img src="ms.jpeg" alt="Microsoft Logo" class="logo">
-            Sign in with Microsoft
+            
+                <img src="ms.jpeg" alt="Microsoft Logo" class="logo">
+                <span>Sign in with Microsoft</span>
+            
+            
         </button>
     </div>
 </body>
